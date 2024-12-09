@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: streamlit-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: streamlit-frontend
+  template:
+    metadata:
+      labels:
+        app: streamlit-frontend
+    spec:
+      containers:
+      - name: streamlit-frontend
+        image: streamlit-frontend
+        ports:
+        - containerPort: 8502
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: streamlit-frontend-service
+spec:
+  selector:
+    app: streamlit-frontend
+  ports:
+    - protocol: TCP
+      port: 8502
+      targetPort: 8502
+  type: LoadBalancer
